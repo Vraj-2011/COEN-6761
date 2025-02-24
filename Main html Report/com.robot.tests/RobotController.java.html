@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RobotController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MainTest Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.robot.tests</a> &gt; <span class="el_source">RobotController.java</span></div><h1>RobotController.java</h1><pre class="source lang-java linenums">package com.robot.tests;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class RobotController {
+    private int[][] floor;
+    public int x, y;
+    public boolean penDown;
+    public Direction direction;
+    public List&lt;String&gt; history; // History list to track actions
+
+<span class="fc" id="L13">    public enum Direction {</span>
+<span class="fc" id="L14">        NORTH, EAST, SOUTH, WEST;</span>
+    }
+
+<span class="fc" id="L17">    public RobotController() {</span>
+        // Default initialization
+<span class="fc" id="L19">        x = 0;</span>
+<span class="fc" id="L20">        y = 0;</span>
+<span class="fc" id="L21">        penDown = false;</span>
+<span class="fc" id="L22">        direction = Direction.NORTH;</span>
+<span class="fc" id="L23">        history = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L24">    }</span>
+
+    public void initialize(int n) {
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">        if (n &lt;= 0) {</span>
+<span class="nc" id="L28">            System.out.println(&quot;Grid size must be greater than 0.&quot;);</span>
+<span class="nc" id="L29">            return;</span>
+        }
+<span class="fc" id="L31">        floor = new int[n][n];</span>
+<span class="fc" id="L32">        x = 0;</span>
+<span class="fc" id="L33">        y = 0;</span>
+<span class="fc" id="L34">        penDown = false;</span>
+<span class="fc" id="L35">        direction = Direction.NORTH;</span>
+<span class="fc" id="L36">        history.add(&quot;Initialized &quot; + n + &quot;x&quot; + n + &quot; grid.&quot;);</span>
+<span class="fc" id="L37">        System.out.println(&quot;Initialized &quot; + n + &quot;x&quot; + n + &quot; grid.&quot;);</span>
+<span class="fc" id="L38">    }</span>
+
+    public void penUp() {
+<span class="fc" id="L41">        penDown = false;</span>
+<span class="fc" id="L42">        history.add(&quot;Pen is now up.&quot;);</span>
+<span class="fc" id="L43">        System.out.println(&quot;Pen is now up.&quot;);</span>
+<span class="fc" id="L44">    }</span>
+
+    public void penDown() {
+<span class="fc" id="L47">        penDown = true;</span>
+<span class="fc" id="L48">        history.add(&quot;Pen is now down.&quot;);</span>
+<span class="fc" id="L49">        System.out.println(&quot;Pen is now down.&quot;);</span>
+<span class="fc" id="L50">    }</span>
+
+    public void turnRight() {
+<span class="pc bpc" id="L53" title="4 of 5 branches missed.">        switch (direction) {</span>
+<span class="fc" id="L54">            case NORTH -&gt; direction = Direction.EAST;</span>
+<span class="nc" id="L55">            case EAST -&gt; direction = Direction.SOUTH;</span>
+<span class="nc" id="L56">            case SOUTH -&gt; direction = Direction.WEST;</span>
+<span class="nc" id="L57">            case WEST -&gt; direction = Direction.NORTH;</span>
+        }
+<span class="fc" id="L59">        history.add(&quot;Turned right. Now facing &quot; + direction + &quot;.&quot;);</span>
+<span class="fc" id="L60">        System.out.println(&quot;Turned right. Now facing &quot; + direction + &quot;.&quot;);</span>
+<span class="fc" id="L61">    }</span>
+
+    public void turnLeft() {
+<span class="pc bpc" id="L64" title="4 of 5 branches missed.">        switch (direction) {</span>
+<span class="fc" id="L65">            case NORTH -&gt; direction = Direction.WEST;</span>
+<span class="nc" id="L66">            case WEST -&gt; direction = Direction.SOUTH;</span>
+<span class="nc" id="L67">            case SOUTH -&gt; direction = Direction.EAST;</span>
+<span class="nc" id="L68">            case EAST -&gt; direction = Direction.NORTH;</span>
+        }
+<span class="fc" id="L70">        history.add(&quot;Turned left. Now facing &quot; + direction + &quot;.&quot;);</span>
+<span class="fc" id="L71">        System.out.println(&quot;Turned left. Now facing &quot; + direction + &quot;.&quot;);</span>
+<span class="fc" id="L72">    }</span>
+
+    public void move(int steps) {
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        for (int i = 0; i &lt; steps; i++) {</span>
+<span class="pc bpc" id="L76" title="4 of 5 branches missed.">            switch (direction) {</span>
+<span class="fc" id="L77">                case NORTH -&gt; y = Math.min(y + 1, floor.length - 1);</span>
+<span class="nc" id="L78">                case SOUTH -&gt; y = Math.max(y - 1, 0);</span>
+<span class="nc" id="L79">                case EAST -&gt; x = Math.min(x + 1, floor[0].length - 1);</span>
+<span class="nc" id="L80">                case WEST -&gt; x = Math.max(x - 1, 0);</span>
+            }
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">            if (penDown) {</span>
+<span class="nc" id="L83">                floor[y][x] = 1;</span>
+            }
+        }
+<span class="fc" id="L86">        history.add(&quot;Moved &quot; + steps + &quot; steps.&quot;);</span>
+<span class="fc" id="L87">        System.out.println(&quot;Moved &quot; + steps + &quot; steps.&quot;);</span>
+<span class="fc" id="L88">    }</span>
+
+    public void printFloor() {
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        if (floor == null) {</span>
+<span class="nc" id="L92">            System.out.println(&quot;Error: Grid is not initialized.&quot;);</span>
+<span class="nc" id="L93">            return;</span>
+        }
+<span class="fc" id="L95">        System.out.println(&quot;Floor:&quot;);</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        for (int i = floor.length - 1; i &gt;= 0; i--) {</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">            for (int j = 0; j &lt; floor[i].length; j++) {</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">                System.out.print(floor[i][j] == 1 ? &quot;*&quot; : &quot; &quot;);</span>
+            }
+<span class="fc" id="L100">            System.out.println();</span>
+        }
+<span class="fc" id="L102">    }</span>
+
+    public int[][] getFloor() {
+<span class="nc" id="L105">        return floor;</span>
+    }
+
+    public void printStatus() {
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">        System.out.println(&quot;Position: [&quot; + x + &quot;, &quot; + y + &quot;] - Pen: &quot; + (penDown ? &quot;down&quot; : &quot;up&quot;) + &quot; - Facing: &quot; + direction);</span>
+<span class="fc" id="L110">    }</span>
+
+    public void printHistory() {
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (history.isEmpty()) {</span>
+<span class="fc" id="L114">            System.out.println(&quot;No history available.&quot;);</span>
+        } else {
+<span class="nc" id="L116">            System.out.println(&quot;History:&quot;);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            for (String record : history) {</span>
+<span class="nc" id="L118">                System.out.println(record);</span>
+<span class="nc" id="L119">            }</span>
+        }
+<span class="fc" id="L121">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
