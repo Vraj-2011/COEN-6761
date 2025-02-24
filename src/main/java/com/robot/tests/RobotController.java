@@ -1,4 +1,3 @@
-//package com.robot.tests;
 package com.robot.tests;
 
 import java.util.ArrayList;
