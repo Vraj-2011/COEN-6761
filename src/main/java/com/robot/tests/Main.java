@@ -53,7 +53,7 @@ public class Main {
         scanner.close();
     }
 
-    private static void printHelp() {
+    public static void printHelp() {
         System.out.println("[U|u] Pen up");
         System.out.println("[D|d] Pen down");
         System.out.println("[R|r] Turn right");
@@ -62,7 +62,7 @@ public class Main {
         System.out.println("[P|p] Print the grid");
         System.out.println("[C|c] Print current status");
         System.out.println("[I n|i n] Initialize the system");
-        System.out.println("[H|h] Print the history of actions");
+        System.out.println("[History|history] Print the history of actions");
         System.out.println("[Q|q] Quit the program");
     }
 }
