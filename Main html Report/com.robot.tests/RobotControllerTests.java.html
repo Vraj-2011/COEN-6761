@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RobotControllerTests.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MainTest Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.robot.tests</a> &gt; <span class="el_source">RobotControllerTests.java</span></div><h1>RobotControllerTests.java</h1><pre class="source lang-java linenums">package com.robot.tests;
+//import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+<span class="nc" id="L9">public class RobotControllerTests {</span>
+    private RobotController robot;
+<span class="nc" id="L11">    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();</span>
+    //private final PrintStream originalOut = System.out;
+
+    @BeforeEach
+    public void setUp() {
+<span class="nc" id="L16">        robot = new RobotController();</span>
+<span class="nc" id="L17">        System.setOut(new PrintStream(outContent)); // Redirect console output for testing</span>
+<span class="nc" id="L18">    }</span>
+
+    @Test
+    public void testInitializeCommand() {
+<span class="nc" id="L22">        robot.initialize(10);</span>
+<span class="nc" id="L23">        assertTrue(outContent.toString().contains(&quot;Initialized 10x10 grid.&quot;));</span>
+<span class="nc" id="L24">    }</span>
+
+    @Test
+    public void testCheckStatusCommand() {
+<span class="nc" id="L28">        robot.initialize(10);</span>
+<span class="nc" id="L29">        robot.printStatus();</span>
+<span class="nc" id="L30">        assertTrue(outContent.toString().contains(&quot;Position: [0, 0] - Pen: up - Facing: NORTH&quot;));</span>
+<span class="nc" id="L31">    }</span>
+
+    @Test
+    public void testPenDownCommand() {
+<span class="nc" id="L35">        robot.penDown();</span>
+<span class="nc" id="L36">        assertTrue(outContent.toString().contains(&quot;Pen is now down.&quot;));</span>
+<span class="nc" id="L37">        assertTrue(robot.penDown);</span>
+<span class="nc" id="L38">    }</span>
+
+    @Test
+    public void testMoveCommand() {
+<span class="nc" id="L42">        robot.initialize(10);</span>
+<span class="nc" id="L43">        robot.penDown();</span>
+<span class="nc" id="L44">        robot.move(4);</span>
+<span class="nc" id="L45">        assertTrue(outContent.toString().contains(&quot;Moved 4 steps.&quot;));</span>
+<span class="nc" id="L46">        assertEquals(4, robot.y); // Check final position</span>
+<span class="nc" id="L47">    }</span>
+
+    @Test
+    public void testTurnRightCommand() {
+<span class="nc" id="L51">        robot.turnRight();</span>
+<span class="nc" id="L52">        assertTrue(outContent.toString().contains(&quot;Turned right. Now facing EAST.&quot;));</span>
+<span class="nc" id="L53">        assertEquals(RobotController.Direction.EAST, robot.direction);</span>
+<span class="nc" id="L54">    }</span>
+
+    @Test
+    public void testMoveEastCommand() {
+<span class="nc" id="L58">        robot.initialize(10);</span>
+<span class="nc" id="L59">        robot.turnRight(); // Facing EAST</span>
+<span class="nc" id="L60">        robot.move(3);</span>
+<span class="nc" id="L61">        assertTrue(outContent.toString().contains(&quot;Moved 3 steps.&quot;));</span>
+<span class="nc" id="L62">        assertEquals(3, robot.x); // Check final position</span>
+<span class="nc" id="L63">    }</span>
+
+    @Test
+    public void testPrintFloorCommand() {
+<span class="nc" id="L67">        robot.initialize(10);</span>
+<span class="nc" id="L68">        robot.penDown();</span>
+<span class="nc" id="L69">        robot.move(2);</span>
+<span class="nc" id="L70">        robot.printFloor();</span>
+<span class="nc" id="L71">        assertTrue(outContent.toString().contains(&quot;Floor:&quot;)); // Ensuring floor prints</span>
+<span class="nc" id="L72">    }</span>
+
+    @Test
+    public void testHistoryCommand() {
+<span class="nc" id="L76">        robot.initialize(10);</span>
+<span class="nc" id="L77">        robot.penDown();</span>
+<span class="nc" id="L78">        robot.move(2);</span>
+<span class="nc" id="L79">        robot.turnRight();</span>
+<span class="nc" id="L80">        robot.printHistory();</span>
+<span class="nc" id="L81">        assertTrue(outContent.toString().contains(&quot;History:&quot;));</span>
+<span class="nc" id="L82">        assertTrue(outContent.toString().contains(&quot;Initialized 10x10 grid.&quot;));</span>
+<span class="nc" id="L83">        assertTrue(outContent.toString().contains(&quot;Pen is now down.&quot;));</span>
+<span class="nc" id="L84">        assertTrue(outContent.toString().contains(&quot;Moved 2 steps.&quot;));</span>
+<span class="nc" id="L85">        assertTrue(outContent.toString().contains(&quot;Turned right. Now facing EAST.&quot;));</span>
+<span class="nc" id="L86">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
