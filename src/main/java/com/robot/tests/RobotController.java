@@ -72,6 +72,17 @@ public class RobotController {
     }
 
     public void move(int steps) {
+        /*Added code based on QA comments*/
+    	 if (floor == null) {
+    	        System.out.println("Grid needs to be initialized first. Use 'I n' to initialize.");
+    	        history.add("Attempted to move before initializing the grid.");
+    	        return;
+    	    }
+    	   if (steps <= 0) {
+    	        System.out.println("Invalid move: steps must be a positive number.");
+    	        history.add("Attempted to move with invalid steps: " + steps);
+    	        return;
+    	    }
         for (int i = 0; i < steps; i++) {
             switch (direction) {
                 case NORTH -> y = Math.min(y + 1, floor.length - 1);
